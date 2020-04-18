@@ -36,6 +36,7 @@ class Cart
   end
 
   def subtotal(item)
+
     item.price * @contents[item.id.to_s]
   end
 
