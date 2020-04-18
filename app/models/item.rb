@@ -4,6 +4,7 @@ class Item <ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_many :item_orders
   has_many :orders, through: :item_orders
+  has_many :bulk_discounts
 
   validates_presence_of :name,
                         :description,
