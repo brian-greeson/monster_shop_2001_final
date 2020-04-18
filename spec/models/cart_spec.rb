@@ -76,13 +76,20 @@ RSpec.describe Cart, type: :model do
 
     it "subtotal" do
       meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
-
       tire = meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
 
       cart = Cart.new(tire.id.to_s => 1)
-      cart.add_item(tire.id.to_s)
 
-      expect(cart.subtotal(tire)).to eq(200)
+      expect(cart.subtotal(tire)).to eq(100)
+      
+      cart.add_item(tire.id.to_s)
+      
+      discount = tire.bulk_discounts.create!(quantity: 2, discount: 10)
+      
+      expect(cart.subtotal(tire)).to eq(180)
+      
+      
+
     end
 
     it "total" do
