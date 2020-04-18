@@ -58,4 +58,12 @@ class Item <ApplicationRecord
     self.image = "https://upload.wikimedia.org/wikipedia/commons/1/15/No_image_available_600_x_450.svg" if self.image.blank?
   end
 
+  def best_discount_percentage(quantity)
+    return 0 unless bulk_discount = bulk_discounts.where('quantity <= ?', quantity).order(discount: :desc).first
+    bulk_discount.discount.to_f / 100
+  end
+
+  def price_after_discounts(quantity)
+    price - (price * best_discount_percentage(quantity))
+  end
 end

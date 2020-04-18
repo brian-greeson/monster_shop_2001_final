@@ -20,10 +20,8 @@ ActiveRecord::Schema.define(version: 20200418155255) do
     t.integer "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "merchant_id"
     t.bigint "item_id"
     t.index ["item_id"], name: "index_bulk_discounts_on_item_id"
-    t.index ["merchant_id"], name: "index_bulk_discounts_on_merchant_id"
   end
 
   create_table "item_orders", force: :cascade do |t|
@@ -99,7 +97,6 @@ ActiveRecord::Schema.define(version: 20200418155255) do
   end
 
   add_foreign_key "bulk_discounts", "items"
-  add_foreign_key "bulk_discounts", "merchants"
   add_foreign_key "item_orders", "items"
   add_foreign_key "item_orders", "orders"
   add_foreign_key "items", "merchants"

@@ -13,6 +13,7 @@ RSpec.describe Item, type: :model do
     it {should have_many :reviews}
     it {should have_many :item_orders}
     it {should have_many(:orders).through(:item_orders)}
+    it {should have_many :bulk_discounts }
   end
 
   describe "instance methods" do
@@ -69,6 +70,32 @@ RSpec.describe Item, type: :model do
       expect(@chain.active?).to eq(false)
       @chain.activate
       expect(@chain.active?).to eq(true)
+    end
+
+    it 'best_discount_percentage(quantity)' do
+      meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
+      tire = meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
+      discount1 = tire.bulk_discounts.create!(quantity: 2, discount: 10)
+      discount2 = tire.bulk_discounts.create!(quantity: 2, discount: 20)
+      discount3 = tire.bulk_discounts.create!(quantity: 3, discount: 50)
+
+      expect(tire.best_discount_percentage(1)).to eq(0)
+      expect(tire.best_discount_percentage(2)).to eq(0.2)
+      expect(tire.best_discount_percentage(3)).to eq(0.5)
+  
+      
+    end
+
+    it 'price_after_discounts(quantity)' do
+      meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
+      tire = meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
+      discount1 = tire.bulk_discounts.create!(quantity: 2, discount: 10)
+      discount2 = tire.bulk_discounts.create!(quantity: 2, discount: 20)
+      discount3 = tire.bulk_discounts.create!(quantity: 3, discount: 50)
+
+      expect(tire.price_after_discounts(1)).to eq(100)
+      expect(tire.price_after_discounts(2)).to eq(80)
+      expect(tire.price_after_discounts(3)).to eq(50)
     end
 
   end
