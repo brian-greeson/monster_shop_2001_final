@@ -1,0 +1,4 @@
+<section class="grid-container item-list">
+  <% @merchant.items.each do |item| %>
+    <%= render partial: '/partials/item_index', locals: {item: item, path: admin_merchant_item_destroy_path(item) } %>
+  <% end %>
