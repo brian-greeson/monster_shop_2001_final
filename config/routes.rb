@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     delete "/items/:id", to: "items#destroy", as: :item_destroy
     get "/orders/:id", to: "orders#show", as: :order_show
     patch "/itemorders/:id", to: "item_orders#update", as: :item_order_update
+    get "/bulk_discounts", to: "bulk_discounts#index", as: :bulk_discounts
   end
 
   get "/merchants", to: "merchants#index"
