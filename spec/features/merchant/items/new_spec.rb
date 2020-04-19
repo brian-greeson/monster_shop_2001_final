@@ -171,6 +171,8 @@ RSpec.describe "As a merchant user", type: :feature do
   end
 
   after(:each) do
+    ItemOrder.destroy_all
+    Order.destroy_all
     User.destroy_all
     Merchant.destroy_all
   end
