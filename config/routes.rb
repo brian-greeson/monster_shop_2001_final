@@ -35,7 +35,8 @@ Rails.application.routes.draw do
     patch "/itemorders/:id", to: "item_orders#update", as: :item_order_update
     get "/bulk_discounts", to: "bulk_discounts#index", as: :bulk_discounts
     get "/bulk_discounts/new", to: "bulk_discounts#new", as: :bulk_discounts_new
-    post "/bulk_discounts/new", to: "bulk_discounts#create", as: :bulk_discount_create
+    post "/bulk_discounts/new", to: "bulk_discounts#create", as: :bulk_discounts_create
+    get "/bulk_discounts/:id", to: "bulk_discounts#show", as: :bulk_discounts_show
   end
 
   get "/merchants", to: "merchants#index"
