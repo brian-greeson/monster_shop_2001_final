@@ -27,17 +27,17 @@ RSpec.describe 'As an merchant user', type: :feature do
      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant1)
   end
 
-  describe 'I can view a single discount' do
-    it 'via a link from the discount index' do
+  describe 'From merchant discounts show page' do
+    it 'I can click a link to edit a discount' do
       discount1 = @tire.bulk_discounts.create!(quantity: 2, discount: 10)
-      visit merchant_bulk_discounts_path
-
-      click_link("Discount of: #{discount1.discount}% on quantities higher than #{discount1.quantity} units")
-      expect(current_path).to eq(merchant_bulk_discounts_show_path(discount1))
-      expect(page).to have_content("Discount of: #{discount1.discount}% on quantities higher than #{discount1.quantity} units")
+      visit merchant_bulk_discounts_show_path(discount1)
       
-    
-    end    
+      click_link "Edit Discount"
+      expect(current_path).to eq(merchant_bulk_discounts_edit_path(discount1)) 
+      expect(find_field("quantity").value).to eq(discount1.quantity.to_s)
+      expect(find_field("discount").value).to eq(discount1.discount.to_s)
+      expect(page).to have_select("item_id", selected: discount1.item.name)
+    end
   end
 
   after(:each) do

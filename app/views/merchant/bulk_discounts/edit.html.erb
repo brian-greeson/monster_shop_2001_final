@@ -1,0 +1,11 @@
+<%= form_with model: @bulk_discounts, local: true, method: :patch do |f| %>
+  <%= f.label :quantity, "Minimum Quantity"%>
+  <%= f.number_field :quantity, value: @bulk_discount.quantity %>
+  
+  <%= f.label :discount, "Discount Percentage" %>
+  <%= f.number_field :discount, value: @bulk_discount.discount %>
+
+  <%= f.label :item, "Item to discount" %>
+  <%= f.collection_select :item_id, @bulk_discount.item.merchant.items, :id, :name, selected: @bulk_discount.item_id %>
+  <%= f.submit "Update Discount" %>
+<% end %>
