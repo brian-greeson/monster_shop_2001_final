@@ -2,7 +2,7 @@
 <h2>Discounts for <%= item.name.capitalize %>:</h2>
   <section class="item-<%= item.id %>-discounts">
     <% item.bulk_discounts.each do |discount| %>
-      <p>Discount of: <%= discount.discount %>% on quantities higher than <%= discount.quantity %> units</p>
+     <%= link_to "Discount of: #{discount.discount}% on quantities higher than #{discount.quantity} units", merchant_bulk_discounts_show_path(discount) %>
     <% end %>
   </section>
 <% end %>
