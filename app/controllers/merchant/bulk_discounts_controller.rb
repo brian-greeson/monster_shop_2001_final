@@ -5,18 +5,33 @@ class Merchant::BulkDiscountsController < Merchant::BaseController
   end
 
   def create
-    discount = BulkDiscount.new(discounts_params)
-    if discount.save
-      flash[:success] = "#{discount.discount}% discount on #{discount.item.name} Created"
+    bulk_discount = BulkDiscount.new(discounts_params)
+    if bulk_discount.save
+      flash[:success] = "#{bulk_discount.discount}% discount on #{bulk_discount.item.name} Created"
       redirect_to merchant_bulk_discounts_path
     else
-      flash.now[:error] = @item.errors.full_messages.to_sentence
+      flash.now[:error] = bulk_discount.errors.full_messages.to_sentence
       render :new
     end
   end
 
   def show
     @bulk_discount = BulkDiscount.find(params[:id])
+  end
+
+  def edit
+    @bulk_discount = BulkDiscount.find(params[:id])
+  end
+
+  def update
+    bulk_discount = Item.find(params[:id])
+    if bulk_discount.update(discounts_params)
+      flash[:success] = "#{bulk_discount.discount}% discount on #{bulk_discount.item.name} Updated"
+      redirect_to merchant_items_path
+    else
+      flash[:error] = bulk_discount.errors.full_messages.to_sentence
+      render :edit
+    end
   end
 
   private
