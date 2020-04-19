@@ -5,6 +5,7 @@
 <%=@merchant.state%>
 <%=@merchant.zip%></p>
 <p><%= link_to "My Discounts", merchant_bulk_discounts_path if current_merchant? %></p><br>
+<p><%= link_to "New Discount", merchant_bulk_discounts_new_path if current_merchant? %></p><br>
 <p><%= link_to "View My Items", merchant_items_path if current_merchant?%> </p><br>
 <p><%= link_to "View My Items", "/admin/merchant/#{@merchant.id}/items" if current_admin?%></p><br>
 
