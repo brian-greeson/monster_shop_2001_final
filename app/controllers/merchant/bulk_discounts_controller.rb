@@ -14,6 +14,7 @@ class Merchant::BulkDiscountsController < Merchant::BaseController
       render :new
     end
   end
+
   private
 
   def discounts_params
