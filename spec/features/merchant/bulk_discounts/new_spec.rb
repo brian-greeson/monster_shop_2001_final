@@ -34,10 +34,9 @@ RSpec.describe 'As an merchant user', type: :feature do
       click_link("New Discount")
 
       expect(current_path).to eq(merchant_bulk_discounts_new_path)
-
       fill_in :quantity, with: 3
       fill_in :discount, with: 50
-      select @tire.name, from: :item
+      select @tire.name, from: :item_id
       click_button "Create Discount"
 
       expect(current_path).to eq(merchant_bulk_discounts_path)
