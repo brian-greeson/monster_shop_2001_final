@@ -1,4 +1,5 @@
 <% @merchant.items.each do |item| %>
+<h2>Discounts for <%= item.name.capitalize %>:</h2>
   <section class="item-<%= item.id %>-discounts">
     <% item.bulk_discounts.each do |discount| %>
       <p>Discount of: <%= discount.discount %>% on quantities higher than <%= discount.quantity %> units</p>

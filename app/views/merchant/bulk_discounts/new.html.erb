@@ -1,0 +1,11 @@
+<%= form_with model: @bulk_discount do |f| %>
+  <%= f.label :quantity, "Minimum Quantity"%>
+  <%= f.number_field :quantity %>
+  
+  <%= f.label :discount, "Discount Percentage" %>
+  <%= f.number_field :discount %>
+
+  <%= f.label :item, "Item to discount" %>
+  <%= f.collection_select :item_id, @merchant.items, :id, :name %>
+  <%= f.submit "Create Discount" %>
+<% end %>
