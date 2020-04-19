@@ -30,8 +30,6 @@ RSpec.describe 'As an merchant user', type: :feature do
   describe 'I can view a single discount' do
     it 'via a link from the discount index' do
       discount1 = @tire.bulk_discounts.create!(quantity: 2, discount: 10)
-      discount2 = @tire.bulk_discounts.create!(quantity: 3, discount: 20)
-      discount3 = @tire.bulk_discounts.create!(quantity: 4, discount: 50)
       visit merchant_bulk_discounts_path
 
       click_link("Discount of: #{discount1.discount}% on quantities higher than #{discount1.quantity} units")
