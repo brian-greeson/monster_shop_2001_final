@@ -39,6 +39,7 @@ Rails.application.routes.draw do
     get "/bulk_discounts/:id", to: "bulk_discounts#show", as: :bulk_discounts_show
     get "bulk_discounts/:id/edit", to: "bulk_discounts#edit", as: :bulk_discounts_edit
     patch "bulk_discounts/:id/edit", to: "bulk_discounts#update", as: :bulk_discounts_update
+    delete "bulk_discounts/:id", to: "bulk_discounts#destroy", as: :bulk_discounts_destroy
   end
 
   get "/merchants", to: "merchants#index"
