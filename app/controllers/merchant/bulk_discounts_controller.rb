@@ -24,7 +24,7 @@ class Merchant::BulkDiscountsController < Merchant::BaseController
   end
 
   def update
-    bulk_discount = Item.find(params[:id])
+    bulk_discount = BulkDiscount.find(params[:id])
     if bulk_discount.update(discounts_params)
       flash[:success] = "#{bulk_discount.discount}% discount on #{bulk_discount.item.name} Updated"
       redirect_to merchant_bulk_discounts_path
