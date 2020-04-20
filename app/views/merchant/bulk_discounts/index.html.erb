@@ -1,9 +1,16 @@
+<ul class="discount">
 <% @merchant.items.each do |item| %>
-<h2>Discounts for <%= item.name.capitalize %>:</h2>
-  <section class="item-<%= item.id %>-discounts">
-    <% item.bulk_discounts.each do |discount| %>
-      <%= link_to "Discount of: #{discount.discount}% on quantities higher than #{discount.quantity} units", merchant_bulk_discounts_show_path(discount) %>
-      <%= link_to "Delete Discount", merchant_bulk_discounts_destroy_path(discount), method: :delete %>
-    <% end %>
-  </section>
+  <li>
+    <h2>Discounts for <%= item.name.capitalize %>:</h2>
+      <section class="item-<%= item.id %>-discounts">
+        <% item.bulk_discounts.each do |discount| %>
+          <li>
+            <%= link_to "Discount of: #{discount.discount}% on quantities higher than #{discount.quantity} units", merchant_bulk_discounts_show_path(discount) %>
+             <br> <%= link_to "Delete Discount", merchant_bulk_discounts_destroy_path(discount), method: :delete %>
+          </li>
+          <br>
+        <% end %>
+      </section>
+  </li>
 <% end %>
+</ul>

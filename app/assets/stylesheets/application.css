@@ -29,6 +29,11 @@ ul{
   padding: 0px;
   text-align: center;
 }
+ul.discount {
+  padding: 25px;
+  text-align: left;
+}
+
 img{
   width: 50%;
 }
