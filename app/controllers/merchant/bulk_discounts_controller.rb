@@ -27,11 +27,21 @@ class Merchant::BulkDiscountsController < Merchant::BaseController
     bulk_discount = Item.find(params[:id])
     if bulk_discount.update(discounts_params)
       flash[:success] = "#{bulk_discount.discount}% discount on #{bulk_discount.item.name} Updated"
-      redirect_to merchant_items_path
+      redirect_to merchant_bulk_discounts_path
     else
       flash[:error] = bulk_discount.errors.full_messages.to_sentence
       render :edit
     end
+  end
+
+  def destroy
+    bulk_discount = BulkDiscount.find(params[:id])
+    if bulk_discount.destroy
+      flash[:success] = "#{bulk_discount.discount}% discount on #{bulk_discount.item.name} Deleted"
+    else
+      flash[:error] = bulk_discount.errors.full_messages.to_sentence
+    end
+    redirect_to merchant_bulk_discounts_path
   end
 
   private
