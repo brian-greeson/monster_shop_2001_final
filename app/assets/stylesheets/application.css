@@ -35,11 +35,10 @@ ul.discount {
 }
 
 img{
-  width: 50%;
+  width:50px;
 }
 img.thumbnail{
-  height: 50px;
-  width: auto;
+  width:50px;
 }
 
 #cart-image{
