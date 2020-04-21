@@ -8,6 +8,7 @@
     <th>Sold By</th>
     <th>Price</th>
     <th>Quantity</th>
+    <th>Savings</th>
     <th>Subtotal</th>
   </tr>
   <% @items.each do |item,quantity| %>
@@ -15,7 +16,7 @@
       <td>
         <p align = "center">
           <span>
-            <img align = "center" id="cart-image" src= <%= item.image %>>
+            <img align="center" id="cart-image" class="thumbnail" src= <%= item.image %>>
             <%=link_to item.name, "/items/#{item.id}" %>
           </span>
         </p>
@@ -37,7 +38,19 @@
           </p>
           <p><%= link_to "Remove", "/cart/#{item.id}",method: :delete %></p>
         </center>
-        </td>
+      </td>
+      <td>
+        <% if item.has_discounts? %>
+          <p><%= "You saved #{number_to_currency(cart.discount_savings(item))}" %></p>
+        <% end %>
+        <br>
+        <% if cart.next_discount(item) %>
+          <p><%= "Purchase #{cart.quantity_to_next_discount(item)} more" %>
+          <br>
+           <%="to save: #{cart.next_discount(item).discount}%" %>
+          </p>
+        <% end %>
+      </td>
       <td>
         <p><%=number_to_currency(cart.subtotal(item))%></p>
     </td>
