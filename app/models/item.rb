@@ -66,4 +66,8 @@ class Item <ApplicationRecord
   def price_after_discounts(quantity)
     price - (price * best_discount_percentage(quantity))
   end
+
+  def has_discounts?
+    bulk_discounts.any?
+  end
 end

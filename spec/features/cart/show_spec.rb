@@ -106,6 +106,50 @@ RSpec.describe 'Cart show' do
         expect(page).to_not have_css("#item-quantity-#{@paper.id}")
       end
 
+      it 'I get upsold to the next discount' do
+        discount1 = @tire.bulk_discounts.create!(quantity: 2, discount: 10)
+        discount2 = @tire.bulk_discounts.create!(quantity: 3, discount: 20) 
+        visit '/cart'
+
+        within "#cart-item-#{@tire.id}" do
+         expect(page).to have_content("Purchase 1 more")
+         expect(page).to have_content("to save: 10%")
+        end
+
+        visit "/items/#{@tire.id}"
+        click_on "Add To Cart"
+        visit "/cart"
+
+        within "#cart-item-#{@tire.id}" do
+          expect(page).to have_content("Purchase 1 more")
+          expect(page).to have_content("to save: 20%")
+        end
+
+        visit "/items/#{@tire.id}"
+        click_on "Add To Cart"
+        visit "/cart"
+
+        within "#cart-item-#{@tire.id}" do
+          expect(page).to_not have_content("Purchase")
+          expect(page).to_not have_content("to save: 20%")
+        end
+      end
+
+      it 'I can see how much I saved' do
+        discount1 = @tire.bulk_discounts.create!(quantity: 2, discount: 10)
+        discount2 = @tire.bulk_discounts.create!(quantity: 3, discount: 20) 
+        visit "/items/#{@tire.id}"
+        click_on "Add To Cart"
+        visit "/cart"
+        within "#cart-item-#{@tire.id}" do
+          expect(page).to have_content("You saved $20.00")
+        end
+        
+        within "#cart-item-#{@paper.id}" do
+          expect(page).to_not have_content("You saved")
+        end
+
+      end
     end
   end
 
@@ -122,7 +166,6 @@ RSpec.describe 'Cart show' do
         visit '/cart'
         expect(page).to_not have_link("Empty Cart")
       end
-
     end
   end
 end
