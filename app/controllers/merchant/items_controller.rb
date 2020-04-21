@@ -42,8 +42,6 @@ class Merchant::ItemsController < Merchant::BaseController
     Review.where(item_id: item.id).destroy_all
     if item.destroy
       flash[:success] = "Item #{item.id} has been deleted"
-    else
-      flash[:error] = item.errors.full_messages.to_sentence
     end
     redirect_to merchant_items_path
   end

@@ -5,6 +5,7 @@ class Merchant::BulkDiscountsController < Merchant::BaseController
   end
 
   def create
+    @merchant = Merchant.find(current_user.merchant.id)
     bulk_discount = BulkDiscount.new(discounts_params)
     if bulk_discount.save
       flash[:success] = "#{bulk_discount.discount}% discount on #{bulk_discount.item.name} Created"
@@ -24,12 +25,12 @@ class Merchant::BulkDiscountsController < Merchant::BaseController
   end
 
   def update
-    bulk_discount = BulkDiscount.find(params[:id])
-    if bulk_discount.update(discounts_params)
-      flash[:success] = "#{bulk_discount.discount}% discount on #{bulk_discount.item.name} Updated"
+    @bulk_discount = BulkDiscount.find(params[:id])
+    if @bulk_discount.update(discounts_params)
+      flash[:success] = "#{@bulk_discount.discount}% discount on #{@bulk_discount.item.name} Updated"
       redirect_to merchant_bulk_discounts_path
     else
-      flash[:error] = bulk_discount.errors.full_messages.to_sentence
+      flash[:error] = @bulk_discount.errors.full_messages.to_sentence
       render :edit
     end
   end
@@ -38,8 +39,6 @@ class Merchant::BulkDiscountsController < Merchant::BaseController
     bulk_discount = BulkDiscount.find(params[:id])
     if bulk_discount.destroy
       flash[:success] = "#{bulk_discount.discount}% discount on #{bulk_discount.item.name} Deleted"
-    else
-      flash[:error] = bulk_discount.errors.full_messages.to_sentence
     end
     redirect_to merchant_bulk_discounts_path
   end
