@@ -49,8 +49,16 @@ class Cart
     @contents[item.id.to_s]
   end
 
- 
+  def discount_savings(item)
+    item.price * quantity(item) - subtotal(item)
+  end
 
-  
+  def quantity_to_next_discount(item)
+    return false unless discount = next_discount(item) 
+    discount.quantity - quantity(item)
+  end
 
+  def next_discount(item)
+    item.bulk_discounts.order(:discount).where('quantity > ?', quantity(item)).first
+  end
 end
