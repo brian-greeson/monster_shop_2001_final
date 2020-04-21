@@ -35,7 +35,8 @@ ul.discount {
 }
 
 img{
-  width:50px;
+  height: 50px;
+  width: auto;
 }
 img.thumbnail{
   width:50px;
