@@ -37,7 +37,38 @@ RSpec.describe 'As an merchant user', type: :feature do
       expect(find_field("quantity").value).to eq(discount1.quantity.to_s)
       expect(find_field("discount").value).to eq(discount1.discount.to_s)
       expect(page).to have_select("item_id", selected: discount1.item.name)
+      
+      fill_in :quantity, with: 10
+      fill_in :discount, with: 50
+      select @tire.name, from: :item_id
+      click_button "Update Discount"
+
+      expect(current_path).to eq(merchant_bulk_discounts_path)
+      expect(page).to have_content("Discount of: 50% on quantities higher than 10 units")
+
     end
+
+    it "I get alerted when entering invalid amounts" do
+      discount1 = @tire.bulk_discounts.create!(quantity: 2, discount: 10)
+      visit merchant_bulk_discounts_edit_path(discount1)
+
+      fill_in :quantity, with: 3
+      fill_in :discount, with: 150
+      select @tire.name, from: :item_id
+      click_button "Update Discount"
+
+      expect(page).to have_content("Discount must be less than or equal to 100")
+
+      fill_in :quantity, with: -3
+      fill_in :discount, with: 10
+      select @tire.name, from: :item_id
+      click_button "Update Discount"
+
+      expect(page).to have_content("Quantity must be greater than 0")
+
+    end
+
+
   end
 
   after(:each) do

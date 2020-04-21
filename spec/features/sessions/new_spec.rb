@@ -73,6 +73,18 @@ RSpec.describe "As a visitor", type: :feature do
     end
 
     it "will not log in with bad credentials" do
+      @user3 = User.new(
+        email_address: "user3@example.com",
+        password: "password",
+        role: 3,
+        name: "User 1",
+        street_address: "123 Example St",
+        city: "Userville",
+        state: "State 1",
+        zip_code: "12345"
+      )
+      @user3.save
+
       fake_email = "youknowit@example.com"
       fake_password = "hackerman"
 
@@ -84,6 +96,13 @@ RSpec.describe "As a visitor", type: :feature do
       expect(page).to_not have_content("Welcome")
       expect(page).to have_content("Invalid Credentials")
       expect(current_path).to eq("/login")
+
+      visit '/login'
+      fill_in "Email Address", with: @user3.email_address
+      fill_in "Password", with: fake_password
+      click_button "Login"
+
+      expect(page).to have_content("Invalid Credentials")
     end
 
     it "users already logged in are redirected to their profile" do
