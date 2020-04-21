@@ -27,18 +27,9 @@ RSpec.describe("Order Creation") do
     end
 
     it 'I can create a new order' do
-      default_user = User.create(
-        email_address: "user1@example.com",
-        password: "password",
-        role: "default",
-        name: "User 1",
-        street_address: "123 Example St",
-        city: "Userville",
-        state: "State 1",
-        zip_code: "12345"
-      )
-
-     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(default_user)
+      default_user = User.create( email_address: "user1@example.com", password: "password", role: "default", name: "User 1", street_address: "123 Example St", city: "Userville", state: "State 1", zip_code: "12345")
+      discount = @tire.bulk_discounts.create!(quantity: 1, discount: 50)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(default_user)
 
       visit "/cart"
       click_on "Checkout"
@@ -80,9 +71,9 @@ RSpec.describe("Order Creation") do
       within "#item-#{@tire.id}" do
         expect(page).to have_link(@tire.name)
         expect(page).to have_link("#{@tire.merchant.name}")
-        expect(page).to have_content("$#{@tire.price}")
+        expect(page).to have_content("$#{@tire.price_after_discounts(1)}")
         expect(page).to have_content("1")
-        expect(page).to have_content("$100")
+        expect(page).to have_content("$50")
       end
 
       within "#item-#{@pencil.id}" do
@@ -94,7 +85,7 @@ RSpec.describe("Order Creation") do
       end
 
       within "#grandtotal" do
-        expect(page).to have_content("Total: $142")
+        expect(page).to have_content("Total: $92")
       end
 
       within "#datecreated" do
