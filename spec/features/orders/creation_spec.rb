@@ -71,7 +71,7 @@ RSpec.describe("Order Creation") do
       within "#item-#{@tire.id}" do
         expect(page).to have_link(@tire.name)
         expect(page).to have_link("#{@tire.merchant.name}")
-        expect(page).to have_content("$#{@tire.price}")
+        expect(page).to have_content("$#{@tire.price_after_discounts(1)}")
         expect(page).to have_content("1")
         expect(page).to have_content("$50")
       end
@@ -85,7 +85,7 @@ RSpec.describe("Order Creation") do
       end
 
       within "#grandtotal" do
-        expect(page).to have_content("Total: $142")
+        expect(page).to have_content("Total: $92")
       end
 
       within "#datecreated" do
